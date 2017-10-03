@@ -20,10 +20,6 @@ class DeckList extends Component {
         });
     }
 
-    onPress = () => {
-        this.props.navigation.navigate('DeckDetail', { deck: 'id' });
-    }
-
     render() {
         const { decks } = this.state;
         const { navigate } = this.props.navigation;
