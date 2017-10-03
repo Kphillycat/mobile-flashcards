@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
-import { Text, View, Dimensions, StyleSheet } from 'react-native';
+import { Text, TouchableOpacity, Dimensions, StyleSheet } from 'react-native';
 
 class Deck extends Component {
     render() {
-        const { deck } = this.props;
+        const { deck, onPress } = this.props;
         const { width } = Dimensions.get('window');
         return (
-            <View style={[styles.deckContainer, {width: width}]}>
+            <TouchableOpacity style={[styles.deckContainer, {width: width}]} onPress={onPress} >
                 <Text style={styles.title}>{deck.title}</Text>
                 <Text style={styles.subTitle}>{deck.questions.length} cards</Text>
-            </View>
+            </TouchableOpacity>
         )
     }
 }

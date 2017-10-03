@@ -20,13 +20,18 @@ class DeckList extends Component {
         });
     }
 
+    onPress = () => {
+        this.props.navigation.navigate('DeckDetail', { deck: 'id' });
+    }
+
     render() {
         const { decks } = this.state;
+        const { navigate } = this.props.navigation;
         return (
             <View style={styles.container}>
                 <Text>Decks</Text>
                 {Object.keys(decks).map((deck, idx) =>
-                    <Deck key={idx} deck={decks[deck]} />
+                    <Deck key={idx} deck={decks[deck]} onPress={() => navigate('DeckDetail', { deckDetails: decks[deck] })} />
                 )}
             </View>
         )
