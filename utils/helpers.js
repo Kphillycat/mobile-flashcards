@@ -1,8 +1,8 @@
-import { fetchAllDecks } from './api';
+import { fetchAllDecks, setData, addDeck } from './api';
 import { AsyncStorage } from 'react-native';
 
 export function getDummyData() {
-  return {
+  const data = {
     React: {
       title: 'React',
       questions: [
@@ -26,11 +26,15 @@ export function getDummyData() {
       ]
     }
   }
+
+  setData(data);
+  return data;
 }
 
 export function getDecks() {
   return fetchAllDecks().then((decks) => {
     if (decks !== null) {
+      console.log('===== GOT DECKS', decks);
       return decks;
     }
 
@@ -43,7 +47,7 @@ export function getDeck(id) {
 }
 
 export function saveDeckTitle(title) {
-
+  return addDeck(title);
 }
 
 export function addCardToDeck(title, card) {

@@ -15,19 +15,17 @@ class Quiz extends Component {
     }
 
     onNextPress = (answer) => {
-        console.log('===== onNextPress answer', answer);
-        console.log('===== onNextPress CORRECT', CORRECT);
         if(answer === CORRECT) {
             this.setState((state) => ({
                 showAnswer: false,
-                corrects: state.corrects + 1,
-                currentCardIdx: state.currentCardIdx + 1 
+                currentCardIdx: state.currentCardIdx + 1,
+                corrects: state.corrects + 1
             }));
         } else if (answer === INCORRECT) {
             this.setState((state) => ({ 
                 showAnswer: false,
-                incorrects: state.incorrects + 1,
-                currentCardIdx: state.currentCardIdx + 1 
+                currentCardIdx: state.currentCardIdx + 1,
+                incorrects: state.incorrects + 1
             }));
         }
     }
@@ -40,15 +38,15 @@ class Quiz extends Component {
         const { showAnswer, currentCardIdx, corrects, incorrects } = this.state;
         const { deck } = this.props.navigation.state.params;
         const currentCard = deck.questions[currentCardIdx];
-        const percentage = (corrects/deck.questions.length) * 100;
+
         if(currentCardIdx === deck.questions.length) {
+            const percentage = (corrects/deck.questions.length) * 100;
             return (
                 <View style={styles.container}>
-                    <Text>{`You got ${percentage}% right!`}</Text>
+                    <Text>{`You got ${percentage}% correct!`}</Text>
                 </View>
             )
         }
-console.log('bout it')
         return (
             <View style={styles.container}>
                 <Text>{`${currentCardIdx + 1}/${deck.questions.length}`}</Text>
