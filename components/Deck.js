@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
         alignItems: 'stretch',
         borderColor: 'black',
         borderWidth: 1,
-        margin: 20
+        padding: 5
     },
     title: {
         textAlign: 'center',

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import { StyleSheet, FlatList } from 'react-native';
 import { getDecks } from '../utils/helpers';
 import Deck from './Deck';
 
@@ -9,7 +9,7 @@ class DeckList extends Component {
     };
 
     state = {
-        decks: []
+        decks: {}
     }
 
     componentDidMount() {
@@ -24,12 +24,16 @@ class DeckList extends Component {
         const { decks } = this.state;
         const { navigate } = this.props.navigation;
         return (
-            <View style={styles.container}>
-                <Text>Decks</Text>
-                {Object.keys(decks).map((deck, idx) =>
-                    <Deck key={idx} deck={decks[deck]} onPress={() => navigate('DeckDetail', { deckDetails: decks[deck] })} />
-                )}
-            </View>
+            <FlatList 
+                data={Object.keys(decks)}
+                keyExtractor={(data,index) => index}
+                renderItem={(data) => 
+                    <Deck 
+                        deck={decks[data.item]} 
+                        onPress={() => navigate('DeckDetail', { deckDetails: decks[data.item] })} 
+                    />
+                }
+            />
         )
     }
 }

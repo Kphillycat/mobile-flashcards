@@ -38,9 +38,18 @@ class Quiz extends Component {
         const { showAnswer, currentCardIdx, corrects, incorrects } = this.state;
         const { deck } = this.props.navigation.state.params;
         const currentCard = deck.questions[currentCardIdx];
+        const numberOfQuestions = deck.questions.length;
 
-        if(currentCardIdx === deck.questions.length) {
-            const percentage = (corrects/deck.questions.length) * 100;
+        if(numberOfQuestions === 0) {
+            return (
+                <View style={styles.container}>
+                    <Text>No cards in this deck</Text>
+                </View>
+            );
+        }
+
+        if(currentCardIdx === numberOfQuestions) {
+            const percentage = (corrects/numberOfQuestions) * 100;
             return (
                 <View style={styles.container}>
                     <Text>{`You got ${percentage}% correct!`}</Text>
@@ -49,7 +58,7 @@ class Quiz extends Component {
         }
         return (
             <View style={styles.container}>
-                <Text>{`${currentCardIdx + 1}/${deck.questions.length}`}</Text>
+                <Text>{`${currentCardIdx + 1}/${numberOfQuestions}`}</Text>
                 {showAnswer ? 
                     <Text style={styles.mainText}>{currentCard.answer}</Text>
                     :                

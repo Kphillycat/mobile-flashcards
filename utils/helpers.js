@@ -34,7 +34,6 @@ export function getDummyData() {
 export function getDecks() {
   return fetchAllDecks().then((decks) => {
     if (decks !== null) {
-      console.log('===== GOT DECKS', decks);
       return decks;
     }
 
