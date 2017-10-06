@@ -1,4 +1,4 @@
-import { fetchAllDecks, setData, addDeck } from './api';
+import { fetchAllDecks, setData, addDeck, addCard, flush } from './api';
 import { AsyncStorage } from 'react-native';
 
 export function getDummyData() {
@@ -50,5 +50,5 @@ export function saveDeckTitle(title) {
 }
 
 export function addCardToDeck(title, card) {
-
+  return addCard(title, card);
 }

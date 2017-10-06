@@ -6,6 +6,7 @@ import DeckDetail from './components/DeckDetail';
 import { StackNavigator, TabNavigator } from 'react-navigation';
 import { Constants } from 'expo'
 import Quiz from './components/Quiz';
+import AddCard from './components/AddCard';
 
 const Tabs = TabNavigator({
   DeckList: {
@@ -41,6 +42,9 @@ const MainNav = StackNavigator({
     },
     Quiz: {
       screen: Quiz
+    },
+    AddCard: {
+      screen: AddCard
     }
 },{
   initialRouteName: 'Home',

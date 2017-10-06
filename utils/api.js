@@ -21,3 +21,16 @@ export function addDeck(deckTitle) {
 export function setData(data) {
     AsyncStorage.setItem(ALL_DECKS, JSON.stringify(data));    
 }
+
+export function addCard(deckTitle, card) {
+    return AsyncStorage.getItem(ALL_DECKS).then(JSON.parse).then((result) => {
+        result[deckTitle].questions.push(card);
+
+        AsyncStorage.setItem(ALL_DECKS, JSON.stringify(result));
+        return result;
+    });
+}
+
+export function flush() {
+    AsyncStorage.removeItem(ALL_DECKS).then(() => console.log('flushed!'));
+}
