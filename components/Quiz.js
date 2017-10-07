@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { CORRECT, INCORRECT } from '../utils/constants'; 
+import { clearLocalNotification } from '../utils/helpers';
 
 class Quiz extends Component {
     state = {
@@ -49,6 +50,8 @@ class Quiz extends Component {
         }
 
         if(currentCardIdx === numberOfQuestions) {
+            clearLocalNotification();
+                
             const percentage = (corrects/numberOfQuestions) * 100;
             return (
                 <View style={styles.container}>

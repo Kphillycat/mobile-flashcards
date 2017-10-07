@@ -1,5 +1,7 @@
 import { fetchAllDecks, setData, addDeck, addCard, flush } from './api';
 import { AsyncStorage } from 'react-native';
+import { Notifications, Permissions } from 'expo';
+import { NOTIFICATION_KEY } from './constants';
 
 export function getDummyData() {
   const data = {
@@ -51,4 +53,54 @@ export function saveDeckTitle(title) {
 
 export function addCardToDeck(title, card) {
   return addCard(title, card);
+}
+
+export function clearLocalNotification() {
+  AsyncStorage.removeItem(NOTIFICATION_KEY)
+    .then(Notifications.cancelAllScheduledNotificationsAsync);
+}
+
+export function setLocalNotification(){
+  AsyncStorage.getItem(NOTIFICATION_KEY)
+    .then(JSON.parse)
+    .then((data) => {
+      if(data === null) {
+        // We have not set up a notification
+        Permissions.askAsync(Permissions.NOTIFICATIONS)
+          .then(({status}) => {
+            if(status === 'granted') {
+              Notifications.cancelAllScheduledNotificationsAsync();
+  
+              let tomorrow = new Date();
+              
+              tomorrow.setDate(tomorrow.getDate() + 1);
+              tomorrow.setHours(7);
+              tomorrow.setMinutes(15);
+
+              Notifications.scheduleLocalNotificationAsync(
+                {
+                  title: "Quiz TIME!!",
+                  body: "Get 1% better everyday. It adds up! 🎓 💯",
+                  ios: {
+                    sound: true
+                  },
+                  android: {
+                    sound: true,
+                    priority: 'high',
+                    sticky: false,
+                    vibrate: true
+                  }
+                },
+                {
+                  time: tomorrow,
+                  repeat: 'day'
+                }
+              )
+
+              AsyncStorage.setItem(NOTIFICATION_KEY, JSON.stringify(true));
+            }
+          }
+        )
+      }
+    }).catch((err) => console.log(`Error in setting local notification. Error ${err}`));
 }

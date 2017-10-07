@@ -24,7 +24,7 @@ class DeckList extends Component {
         const { decks } = this.state;
         const { navigate } = this.props.navigation;
         return (
-            <FlatList 
+            <FlatList
                 data={Object.keys(decks)}
                 keyExtractor={(data,index) => index}
                 renderItem={(data) => 

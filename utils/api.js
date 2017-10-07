@@ -1,6 +1,5 @@
 import { AsyncStorage } from 'react-native';
-
-const ALL_DECKS = 'ALL_DECKS';
+import { ALL_DECKS } from './constants';
 
 export function fetchAllDecks() {
     return AsyncStorage.getItem(ALL_DECKS).then(JSON.parse).then((result) => result);

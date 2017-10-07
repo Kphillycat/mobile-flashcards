@@ -7,6 +7,7 @@ import { StackNavigator, TabNavigator } from 'react-navigation';
 import { Constants } from 'expo'
 import Quiz from './components/Quiz';
 import AddCard from './components/AddCard';
+import { setLocalNotification } from './utils/helpers';
 
 const Tabs = TabNavigator({
   DeckList: {
@@ -52,6 +53,10 @@ const MainNav = StackNavigator({
 });
 
 export default class App extends React.Component {
+  componentDidMount() {
+    setLocalNotification();
+  }
+
   render() {
     return (      
       <View style={styles.container}>

@@ -10,36 +10,25 @@ class AddCard extends Component {
 
     state = {
         question: '',
-        answer: '',
-        formCompleted: false
+        answer: ''
     }
 
     onTextChange = (type, text) => {
-        this.setState(() => (
-            {
-                [type]: text
-            }
-        ));
-
-        if(this.state.question && this.state.answer) {
-            this.setState(() => ({formCompleted: true}))
-        }
-        
+        this.setState(() => ({
+            [type]: text
+        }));
     }
 
-    submit = () => {
-        const { question, answer, formCompleted } = this.state;
+    submit = () => {      
+        const { question, answer } = this.state;
         const { navigate } = this.props.navigation;
         const { deckTitle } = this.props.navigation.state.params;
-        if (!formCompleted) {
-            return;
-        } 
 
         addCardToDeck(deckTitle, {question, answer}).then((data) => navigate('DeckList'));
-
     }
+
     render() {
-        const { question, answer, formCompleted } = this.state;
+        const { question, answer } = this.state;
         return (
             <View>
                 <FormLabel>Question</FormLabel>
@@ -47,7 +36,7 @@ class AddCard extends Component {
 
                 <FormLabel>Answer</FormLabel>
                 <FormInput onChangeText={(text) => this.onTextChange('answer',text)} value={answer}/>
-                <Button title="Submit" disabled={!formCompleted} onPress={this.submit} />
+                <Button title="Submit" disabled={!(question && answer)} onPress={this.submit} />
             </View>
         );
     }
