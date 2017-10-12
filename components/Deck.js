@@ -8,7 +8,7 @@ class Deck extends Component {
         return (
             <TouchableOpacity style={[styles.deckContainer, {width: width}]} onPress={onPress} >
                 <Text style={styles.title}>{deck.title}</Text>
-                <Text style={styles.subTitle}>{deck.questions.length} cards</Text>
+                <Text style={styles.subTitle}>{deck.questions.length} card(s)</Text>
             </TouchableOpacity>
         )
     }

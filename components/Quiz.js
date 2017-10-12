@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { CORRECT, INCORRECT } from '../utils/constants'; 
-import { clearLocalNotification } from '../utils/helpers';
+import { resetLocalNotification } from '../utils/helpers';
 
 class Quiz extends Component {
     state = {
@@ -33,11 +33,12 @@ class Quiz extends Component {
 
     render() {
         const flipTo = {
-            answer: "Anwser",
+            answer: "Answer",
             question: "Question"
         };
         const { showAnswer, currentCardIdx, corrects, incorrects } = this.state;
         const { deck } = this.props.navigation.state.params;
+        const { navigate } = this.props.navigation;
         const currentCard = deck.questions[currentCardIdx];
         const numberOfQuestions = deck.questions.length;
 
@@ -50,32 +51,44 @@ class Quiz extends Component {
         }
 
         if(currentCardIdx === numberOfQuestions) {
-            clearLocalNotification();
+            resetLocalNotification();
                 
             const percentage = (corrects/numberOfQuestions) * 100;
             return (
-                <View style={styles.container}>
-                    <Text>{`You got ${percentage}% correct!`}</Text>
+                <View>
+                    <Image
+                        source={percentage > 50 ? require('../images/yay.gif') : require('../images/keep-swimming.gif')}
+                    />
+                    <Text style={styles.resultsText}>{`You got ${percentage}% correct!`}</Text>
+                    <TouchableOpacity style={styles.homeButton} onPress={() => navigate('DeckList')}>
+                        <Text style={styles.buttonText}>Go Back to Deck List</Text>
+                    </TouchableOpacity>
                 </View>
             )
         }
         return (
             <View style={styles.container}>
-                <Text>{`${currentCardIdx + 1}/${numberOfQuestions}`}</Text>
-                {showAnswer ? 
-                    <Text style={styles.mainText}>{currentCard.answer}</Text>
-                    :                
-                    <Text style={styles.mainText}>{currentCard.question}</Text>
-                }
-                <TouchableOpacity onPress={this.onShowPress}>
-                    <Text style={styles.flipText}>Flip to {showAnswer ? flipTo.question : flipTo.answer}</Text>    
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.correctButton} onPress={() => this.onNextPress(CORRECT)}>
-                    <Text style={styles.buttonText}>Correct</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.incorrectButton} onPress={() => this.onNextPress(INCORRECT)}>
-                    <Text style={styles.buttonText}>Incorrect</Text>
-                </TouchableOpacity>
+                <View style={styles.deckContainer}>
+                    <Text style={styles.cardNumber}>{`${currentCardIdx + 1}/${numberOfQuestions}`}</Text>
+                    {showAnswer ? 
+                        <Text style={styles.mainText}>Answer: {currentCard.answer}</Text>
+                        :                
+                        <Text style={styles.mainText}>{currentCard.question}</Text>
+                    }
+                </View>
+                <View style={styles.buttonContainer} >
+                    <TouchableOpacity style={[styles.flipButton, {width: 150, alignSelf: 'center', borderRadius: 10}]} onPress={this.onShowPress}>
+                        <Text style={styles.buttonText}>{showAnswer ? flipTo.question : flipTo.answer}</Text>    
+                    </TouchableOpacity>
+                    <View style={styles.answerButtonsContainer}> 
+                        <TouchableOpacity style={styles.correctButton} onPress={() => this.onNextPress(CORRECT)}>
+                            <Text style={styles.buttonText}>Correct</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.incorrectButton} onPress={() => this.onNextPress(INCORRECT)}>
+                            <Text style={styles.buttonText}>Incorrect</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
             </View>
         )
     }
@@ -87,25 +100,60 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around',
         alignItems: 'center'
     },
-    mainText: {
-        fontSize: 30
+    deckContainer: {
+        flex: 2,
+        borderWidth: 1,
+        justifyContent: 'flex-start',
+        borderColor: 'black',
+        borderRadius: 10,
+        alignSelf: 'stretch',
+        alignItems: 'center',
+        margin: 20,
     },
-    flipText: {
-        fontSize: 15,
-        fontWeight: 'bold'
+    buttonContainer: {
+        flex: 1,
+        justifyContent: 'space-around'
+    },
+    answerButtonsContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-around'
+    },
+    cardNumber: {
+        fontSize: 20,
+        alignSelf: 'flex-start',
+        margin: 20
+    },
+    mainText: {
+        fontSize: 45,
+        marginTop: 20,
+        textAlign: 'center'
+    },
+    flipButton: {
+        backgroundColor: '#d8c931'
     },
     correctButton: {
-        backgroundColor: 'green',
-        borderRadius: 10
+        backgroundColor: '#1f8346',
+        borderRadius: 10,
+        margin: 10
     },
     incorrectButton: {
-        backgroundColor: 'red',
-        borderRadius: 10
+        backgroundColor: '#ae1c1c',
+        borderRadius: 10,
+        margin: 10
     },
     buttonText: {
         fontSize: 20,
         padding: 20,
         textAlign: 'center'
+    },
+    resultsText: {
+        fontSize: 45,
+        textAlign: 'center'
+    },
+    homeButton: {
+        backgroundColor: '#1f8346',
+        borderRadius: 10,
+        margin: 10
     }
 });
 

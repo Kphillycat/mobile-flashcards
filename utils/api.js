@@ -1,5 +1,5 @@
 import { AsyncStorage } from 'react-native';
-import { ALL_DECKS } from './constants';
+import { ALL_DECKS, NOTIFICATION_KEY } from './constants';
 
 export function fetchAllDecks() {
     return AsyncStorage.getItem(ALL_DECKS).then(JSON.parse).then((result) => result);
@@ -31,5 +31,5 @@ export function addCard(deckTitle, card) {
 }
 
 export function flush() {
-    AsyncStorage.removeItem(ALL_DECKS).then(() => console.log('flushed!'));
+    return AsyncStorage.removeItem(ALL_DECKS).then(() => AsyncStorage.removeItem(NOTIFICATION_KEY));
 }

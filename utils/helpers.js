@@ -43,11 +43,8 @@ export function getDecks() {
   });
 }
 
-export function getDeck(id) {
-
-}
-
 export function saveDeckTitle(title) {
+  // TODO: Validation
   return addDeck(title);
 }
 
@@ -56,7 +53,7 @@ export function addCardToDeck(title, card) {
 }
 
 export function clearLocalNotification() {
-  AsyncStorage.removeItem(NOTIFICATION_KEY)
+  return AsyncStorage.removeItem(NOTIFICATION_KEY)
     .then(Notifications.cancelAllScheduledNotificationsAsync);
 }
 
@@ -103,4 +100,12 @@ export function setLocalNotification(){
         )
       }
     }).catch((err) => console.log(`Error in setting local notification. Error ${err}`));
+}
+
+export function resetLocalNotification() {
+  clearLocalNotification().then(setLocalNotification);
+}
+
+export function clearAllDecks() {
+  return flush();
 }

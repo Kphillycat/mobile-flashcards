@@ -8,19 +8,27 @@ import { Constants } from 'expo'
 import Quiz from './components/Quiz';
 import AddCard from './components/AddCard';
 import { setLocalNotification } from './utils/helpers';
+import { Entypo } from '@expo/vector-icons';
+
 
 const Tabs = TabNavigator({
   DeckList: {
-    screen: DeckList
+    screen: DeckList,
+    navigationOptions: {
+      tabBarIcon: () => <Entypo name="list" size={30} />
+    },
   },
   AddDeck: {
-    screen: AddDeck
+    screen: AddDeck,
+    navigationOptions: {
+      tabBarIcon: () => <Entypo name="add-to-list" size={30} />
+    },
   }
 }, {
   tabBarOptions: {
-    activeTintColor: Platform.OS === 'ios' ? 'purple' : 'white',
+    activeTintColor: Platform.OS === 'ios' ? 'blue' : 'white',
     style: {
-      backgroundColor: Platform.OS === 'ios' ? 'white' : 'purple',
+      backgroundColor: Platform.OS === 'ios' ? 'white' : 'blue',
       shadowColor: 'rgba(0, 0, 0, 0.24)',
       shadowOffset: {
         width: 0,
@@ -48,8 +56,7 @@ const MainNav = StackNavigator({
       screen: AddCard
     }
 },{
-  initialRouteName: 'Home',
-  // headerMode: 'none',
+  initialRouteName: 'Home'
 });
 
 export default class App extends React.Component {

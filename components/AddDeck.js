@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Keyboard } from 'react-native';
 import { FormLabel, FormInput, Button, FormValidationMessage } from 'react-native-elements';
 import { saveDeckTitle } from '../utils/helpers';
 
@@ -40,7 +40,11 @@ class AddDeck extends Component {
             return;
         } 
 
-        saveDeckTitle(title).then((data) => navigate('DeckList'));
+        saveDeckTitle(title).then((data) => {
+            this.setState(() => ({ title: ''}));
+            Keyboard.dismiss();
+            navigate('DeckList', { shouldRefresh: true});
+        });
 
     }
     
@@ -50,8 +54,8 @@ class AddDeck extends Component {
             <View>
                 <FormLabel>New Deck Title</FormLabel>
                 <FormInput onChangeText={this.onTextChange} value={title}/>
-                <FormValidationMessage >{error ? 'Error message' : ''}</FormValidationMessage>
-                <Button title="Submit" onPress={this.submit} />
+                <FormValidationMessage >{error ? 'Required Field' : ''}</FormValidationMessage>
+                <Button title="Submit" disabled={!title} onPress={this.submit} />
             </View>
         );
     }
