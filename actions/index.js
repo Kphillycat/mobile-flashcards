@@ -15,8 +15,8 @@ export function addCardSuccess (deck) {
     }
 }
 
-export const addCard = (card, deckId) => (dispatch) => {
-    api.addCard(card, deckId).then((deck) => 
+export const addCard = (deckTitle, card) => (dispatch) => {
+    api.addCardToDeck(deckTitle, card).then((deck) => 
         dispatch(addCardSuccess(deck))
     )
 }

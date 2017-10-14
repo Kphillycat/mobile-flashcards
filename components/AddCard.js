@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, Keyboard } from 'react-native';
 import { FormLabel, FormInput, Button, FormValidationMessage } from 'react-native-elements';
-import { addCardToDeck } from '../utils/helpers';
+import { addCard } from '../actions';
+import { connect } from 'react-redux';
 
 class AddCard extends Component {
     static navigationOptions = {
@@ -24,7 +25,9 @@ class AddCard extends Component {
         const { navigate } = this.props.navigation;
         const { deckTitle } = this.props.navigation.state.params;
 
-        addCardToDeck(deckTitle, {question, answer}).then((data) => navigate('DeckList'));
+        this.props.dispatch(addCard(deckTitle, {question, answer}));
+        Keyboard.dismiss();
+        navigate('DeckDetail', { deckId: deckTitle });
     }
 
     render() {
@@ -42,4 +45,6 @@ class AddCard extends Component {
     }
 }
 
-export default AddCard;
+mapStateToProps = (state) => ({state});
+
+export default connect(mapStateToProps)(AddCard);
