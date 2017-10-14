@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
-import { StyleSheet, FlatList, View, TouchableOpacity, Text } from 'react-native';
-import { getDecks, clearAllDecks } from '../utils/helpers';
+import { StyleSheet, FlatList, View, TouchableOpacity, Text, ActivityIndicator } from 'react-native';
+import { clearAllDecks } from '../utils/helpers';
 import Deck from './Deck';
+import { connect } from 'react-redux';
+import { retrieveDecks } from '../actions';
+import get from 'lodash.get';
+import globalStyles from '../utils/styles';
 
 class DeckList extends Component {
     static navigationOptions = {
@@ -13,21 +17,13 @@ class DeckList extends Component {
     }
 
     componentDidMount() {
-        this.refreshDecks();
+        this.props.dispatch(retrieveDecks());
     }
 
     componentWillReceiveProps(newProps) {
-        if(newProps && newProps.navigation.state.params.shouldRefresh) {
-            this.refreshDecks();
+        if(get(newProps, 'navigation.state.params.shouldRefresh')) {
+            this.props.dispatch(retrieveDecks());
         }
-    }
-
-    refreshDecks = () => {
-        getDecks().then((decks) => {
-            this.setState({
-                decks
-            })
-        })
     }
 
     clearDecks = () => {
@@ -37,9 +33,18 @@ class DeckList extends Component {
     }
 
     render() {
-        // TODO: Add redux
-        const { decks } = this.state;
+        const { decks, loadingStatus } = this.props.state;
         const { navigate } = this.props.navigation;
+
+        if (loadingStatus.isFetching) {
+            return ( 
+                <ActivityIndicator 
+                    animating={true}
+                    style={globalStyles.loader}
+                    size="large"
+                />
+            )
+        }
 
         return (
             <View>
@@ -52,7 +57,7 @@ class DeckList extends Component {
                     renderItem={(data) => 
                         <Deck 
                             deck={decks[data.item]} 
-                            onPress={() => navigate('DeckDetail', { deckDetails: decks[data.item] })} 
+                            onPress={() => navigate('DeckDetail', { deckId: data.item })} 
                         />
                     }
                 />
@@ -75,4 +80,8 @@ const styles = StyleSheet.create({
     }
   });
 
-export default DeckList;
+mapStateToProps = (state) => ({
+    state 
+});
+
+export default connect(mapStateToProps)(DeckList);

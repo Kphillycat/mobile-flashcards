@@ -1,22 +1,44 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { retrieveDeckDetail } from '../actions';
+import get from 'lodash.get';
+import { connect } from 'react-redux';
+import globalStyles from '../utils/styles';
 
 class DeckDetail extends Component {
+    componentDidMount(){
+        const deckId = get(this.props, 'navigation.state.params.deckId');
+        this.props.dispatch(retrieveDeckDetail(deckId));
+    }
+
     render() {
         const { state, navigate } = this.props.navigation;
-        const deck = state.params.deckDetails;
+        const deck = this.props.state.deckDetails;
+        const numOfQuestions = deck.questions ? deck.questions.length : 0;
+        const { isFetching } = this.props.state.loadingStatus;
+
+        if (isFetching) {
+            return ( 
+                <ActivityIndicator 
+                    animating={true}
+                    style={globalStyles.loader}
+                    size="large"
+                />
+            )
+        }
+
         return (
             <View style={styles.container}>
                 <View style={styles.deckContainer}>
                     <MaterialCommunityIcons name="cards-outline" size={100} />
                     <Text style={styles.title}>{deck.title}</Text>
-                    <Text style={styles.subtitle}>{deck.questions.length} card(s)</Text>
+                    <Text style={styles.subtitle}>{numOfQuestions} card(s)</Text>
                 </View>
                 <TouchableOpacity style={[styles.button, styles.addButton]}>
                     <Text style={styles.addText} onPress={() => navigate('AddCard', {deckTitle: deck.title})}>Add Card</Text>
                 </TouchableOpacity>
-                {deck.questions.length > 0 && <TouchableOpacity style={[styles.button, styles.startButton]}>
+                {numOfQuestions > 0 && <TouchableOpacity style={[styles.button, styles.startButton]}>
                     <Text style={styles.startText} onPress={() => navigate('Quiz', {deck})}>Start Quiz</Text>
                 </TouchableOpacity>}
             </View>
@@ -69,4 +91,6 @@ const styles = StyleSheet.create({
     }
 });
 
-export default DeckDetail;
+mapStateToProps = (state) => ({state})
+
+export default connect(mapStateToProps)(DeckDetail);

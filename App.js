@@ -9,7 +9,17 @@ import Quiz from './components/Quiz';
 import AddCard from './components/AddCard';
 import { setLocalNotification } from './utils/helpers';
 import { Entypo } from '@expo/vector-icons';
+import { createStore, applyMiddleware } from 'redux';
+import { Provider } from 'react-redux';
+import rootReducer from './reducers';
+import thunk from 'redux-thunk';
+import { createLogger } from 'redux-logger';
 
+
+const middlewares = [thunk];
+if(__DEV__) {
+  middlewares.push(createLogger());
+}
 
 const Tabs = TabNavigator({
   DeckList: {
@@ -65,15 +75,17 @@ export default class App extends React.Component {
   }
 
   render() {
-    return (      
-      <View style={styles.container}>
-        <View style={{ height: Constants.statusBarHeight }}>
-          <StatusBar 
-            backgroundColor={'transparent'}
-            translucent />
+    return (
+      <Provider store={createStore(rootReducer, applyMiddleware(...middlewares))}>
+        <View style={styles.container}>
+          <View style={{ height: Constants.statusBarHeight }}>
+            <StatusBar 
+              backgroundColor={'transparent'}
+              translucent />
+          </View>
+          <MainNav />
         </View>
-        <MainNav />
-      </View>
+      </Provider>
     );
   }
 }

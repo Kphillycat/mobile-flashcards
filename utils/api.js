@@ -30,6 +30,12 @@ export function addCard(deckTitle, card) {
     });
 }
 
+export function getDeck(id) {
+    return AsyncStorage.getItem(ALL_DECKS).then(JSON.parse).then((result) => {
+        return result[id];
+    });
+}
+
 export function flush() {
     return AsyncStorage.removeItem(ALL_DECKS).then(() => AsyncStorage.removeItem(NOTIFICATION_KEY));
 }

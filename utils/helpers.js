@@ -1,4 +1,4 @@
-import { fetchAllDecks, setData, addDeck, addCard, flush } from './api';
+import { fetchAllDecks, setData, addDeck, addCard, flush, getDeck } from './api';
 import { AsyncStorage } from 'react-native';
 import { Notifications, Permissions } from 'expo';
 import { NOTIFICATION_KEY } from './constants';
@@ -50,6 +50,10 @@ export function saveDeckTitle(title) {
 
 export function addCardToDeck(title, card) {
   return addCard(title, card);
+}
+
+export function getDeckById(id) {
+  return getDeck(id);
 }
 
 export function clearLocalNotification() {
