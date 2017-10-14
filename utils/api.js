@@ -13,7 +13,7 @@ export function addDeck(deckTitle) {
         };
 
         AsyncStorage.setItem(ALL_DECKS, JSON.stringify(result));
-        return result;
+        return result[deckTitle];
     });
 }
 
@@ -26,7 +26,7 @@ export function addCard(deckTitle, card) {
         result[deckTitle].questions.push(card);
 
         AsyncStorage.setItem(ALL_DECKS, JSON.stringify(result));
-        return result;
+        return result[deckTitle];
     });
 }
 

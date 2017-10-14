@@ -27,7 +27,8 @@ class AddCard extends Component {
 
         this.props.dispatch(addCard(deckTitle, {question, answer}));
         Keyboard.dismiss();
-        navigate('DeckDetail', { deckId: deckTitle });
+        // Wait for api/localstorage to update before redirect
+        setTimeout(() => { navigate('DeckDetail', { deckId: deckTitle }) }, 500);
     }
 
     render() {

@@ -7,3 +7,4 @@ export const ADD_DECK = 'ADD_DECK';
 export const RECEIVE_DECKS = 'RECEIVE_DECKS';
 export const RECEIVE_DECK_DETAIL = 'RECEIVE_DECK_DETAIL';
 export const IS_LOADING = 'IS_LOADING';
+export const CLEAR_ALL = 'CLEAR_ALL';

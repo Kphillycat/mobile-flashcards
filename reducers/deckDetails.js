@@ -1,4 +1,4 @@
-import { RECEIVE_DECK_DETAIL, ADD_CARD } from '../utils/constants';
+import { RECEIVE_DECK_DETAIL, ADD_CARD, ADD_DECK } from '../utils/constants';
 
 function deckDetails(state = {}, action) {
     switch(action.type){
@@ -6,6 +6,12 @@ function deckDetails(state = {}, action) {
             return {
                 ...state,
                 ...action.deck
+            }
+        case ADD_DECK:
+            return {
+                ...state,
+                ...action.deck,
+                deckId: action.deckTitle
             }
         case ADD_CARD:
             return {

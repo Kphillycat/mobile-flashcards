@@ -1,5 +1,15 @@
-import { ADD_CARD, ADD_DECK, RECEIVE_DECKS, RECEIVE_DECK_DETAIL, IS_LOADING } from '../utils/constants';
+import { ADD_CARD, ADD_DECK, RECEIVE_DECKS, RECEIVE_DECK_DETAIL, IS_LOADING, CLEAR_ALL } from '../utils/constants';
 import * as api from '../utils/helpers';
+
+export function clearAll() {
+    return {
+        type: CLEAR_ALL
+    }
+}
+
+export const clearAllData = () => (dispatch) => {
+    api.clearAllDecks().then(() => dispatch(clearAll()));
+}
 
 export function isLoading(isFetching) {
     return {
@@ -16,22 +26,27 @@ export function addCardSuccess (deck) {
 }
 
 export const addCard = (deckTitle, card) => (dispatch) => {
-    api.addCardToDeck(deckTitle, card).then((deck) => 
-        dispatch(addCardSuccess(deck))
-    )
+    dispatch(isLoading(true));
+    api.addCardToDeck(deckTitle, card).then((deck) => {
+        dispatch(isLoading(false));
+        dispatch(addCardSuccess(deck));
+    })
 }
 
-export function addDeckSuccess (deck) {
+export function addDeckSuccess (deck, deckTitle) {
     return {
         type: ADD_DECK,
-        deck
+        deck,
+        deckTitle
     }
 }
 
-export const addDeck = (deck) => (dispatch) => {
-    api.addCard(card, deckId).then((deck) => 
-        dispatch(addCardSuccess(deck))
-    )
+export const addDeck = (deckTitle) => (dispatch) => {
+    dispatch(isLoading(true));
+    api.saveDeckTitle(deckTitle).then((deck) => {
+        dispatch(isLoading(false));
+        dispatch(addDeckSuccess(deck, deckTitle));
+    })
 }
 
 export const retrieveDecksSuccess = (decks) => (

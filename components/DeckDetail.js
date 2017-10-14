@@ -14,10 +14,10 @@ class DeckDetail extends Component {
 
     render() {
         const { state, navigate } = this.props.navigation;
-        const deck = this.props.state.deckDetails;
+        const deck = this.props.deckDetails;
         const numOfQuestions = deck.questions ? deck.questions.length : 0;
-        const { isFetching } = this.props.state.loadingStatus;
-
+        const { isFetching } = this.props.loadingStatus;
+        
         if (isFetching) {
             return ( 
                 <ActivityIndicator 
@@ -91,6 +91,9 @@ const styles = StyleSheet.create({
     }
 });
 
-mapStateToProps = (state) => ({state})
+mapStateToProps = (state) => ({
+    deckDetails: state.deckDetails,
+    loadingStatus: state.loadingStatus
+});
 
 export default connect(mapStateToProps)(DeckDetail);

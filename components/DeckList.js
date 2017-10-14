@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { StyleSheet, FlatList, View, TouchableOpacity, Text, ActivityIndicator } from 'react-native';
-import { clearAllDecks } from '../utils/helpers';
 import Deck from './Deck';
 import { connect } from 'react-redux';
-import { retrieveDecks } from '../actions';
+import { retrieveDecks, clearAllData } from '../actions';
 import get from 'lodash.get';
 import globalStyles from '../utils/styles';
 
@@ -11,10 +10,6 @@ class DeckList extends Component {
     static navigationOptions = {
         tabBarLabel: 'Deck List',
     };
-
-    state = {
-        decks: {}
-    }
 
     componentDidMount() {
         this.props.dispatch(retrieveDecks());
@@ -27,15 +22,14 @@ class DeckList extends Component {
     }
 
     clearDecks = () => {
-        clearAllDecks().then(() => {
-            this.refreshDecks();
-        });
+        this.props.dispatch(clearAllData())
+        setTimeout(() => { this.props.dispatch(retrieveDecks()) }, 500);
     }
 
     render() {
-        const { decks, loadingStatus } = this.props.state;
+        const { decks, loadingStatus } = this.props;
         const { navigate } = this.props.navigation;
-
+        
         if (loadingStatus.isFetching) {
             return ( 
                 <ActivityIndicator 
@@ -81,7 +75,8 @@ const styles = StyleSheet.create({
   });
 
 mapStateToProps = (state) => ({
-    state 
+    decks: state.decks,
+    loadingStatus: state.loadingStatus
 });
 
 export default connect(mapStateToProps)(DeckList);

@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { View, Text, Keyboard } from 'react-native';
 import { FormLabel, FormInput, Button, FormValidationMessage } from 'react-native-elements';
 import { saveDeckTitle } from '../utils/helpers';
+import { addDeck } from '../actions';
+import { connect } from 'react-redux';
 
 class AddDeck extends Component {
     static navigationOptions = {
@@ -39,13 +41,10 @@ class AddDeck extends Component {
             this.setState(() => ({error: true}));
             return;
         } 
-
-        saveDeckTitle(title).then((data) => {
-            this.setState(() => ({ title: ''}));
-            Keyboard.dismiss();
-            navigate('DeckList', { shouldRefresh: true});
-        });
-
+        this.props.dispatch(addDeck(title));
+        Keyboard.dismiss();
+        // Wait for api/localstorage to update before redirect
+        setTimeout(() => { navigate('DeckDetail', {deckId: title}) }, 500);
     }
     
     render() {
@@ -61,4 +60,4 @@ class AddDeck extends Component {
     }
 }
 
-export default AddDeck;
+export default connect()(AddDeck);

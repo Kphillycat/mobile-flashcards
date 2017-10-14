@@ -44,7 +44,6 @@ export function getDecks() {
 }
 
 export function saveDeckTitle(title) {
-  // TODO: Validation
   return addDeck(title);
 }
 

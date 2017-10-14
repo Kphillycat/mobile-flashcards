@@ -7,11 +7,6 @@ function decks (state = {}, action) {
                 ...state,
                 ...action.decks
             }
-        case ADD_DECK: 
-            return {
-                ...state,
-                ...action.deck
-            }
         default:
             return state;
     }
