@@ -65,7 +65,7 @@ class Quiz extends Component {
                         <Text style={styles.goBackText}>Restart Quiz</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={[styles.goBackButtons, {backgroundColor: colors.GO_BACK_BTN}]} onPress={() => navigate('DeckDetail', {deckId: deck.title})}>
-                        <Text style={styles.goBackText}>Return to deck</Text>
+                        <Text style={styles.goBackText}>Return to Deck</Text>
                     </TouchableOpacity>
                 </View>
             )

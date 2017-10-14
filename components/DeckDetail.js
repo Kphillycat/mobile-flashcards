@@ -4,7 +4,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { retrieveDeckDetail } from '../actions';
 import get from 'lodash.get';
 import { connect } from 'react-redux';
-import componentStyles from '../styles/components';
+import componentStyles from '../style/components';
 
 class DeckDetail extends Component {
     componentDidMount(){
