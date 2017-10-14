@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-const globalStyles = StyleSheet.create({
+const componentStyles = StyleSheet.create({
     loader: {
         alignItems: 'center',
         justifyContent: 'center',
@@ -8,4 +8,4 @@ const globalStyles = StyleSheet.create({
     }
 });
 
-export default globalStyles;
+export default componentStyles;

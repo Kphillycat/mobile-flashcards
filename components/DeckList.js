@@ -4,7 +4,7 @@ import Deck from './Deck';
 import { connect } from 'react-redux';
 import { retrieveDecks, clearAllData } from '../actions';
 import get from 'lodash.get';
-import globalStyles from '../utils/styles';
+import componentStyles from '../style/components';
 
 class DeckList extends Component {
     static navigationOptions = {
@@ -34,7 +34,7 @@ class DeckList extends Component {
             return ( 
                 <ActivityIndicator 
                     animating={true}
-                    style={globalStyles.loader}
+                    style={componentStyles.loader}
                     size="large"
                 />
             )

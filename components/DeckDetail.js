@@ -4,7 +4,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { retrieveDeckDetail } from '../actions';
 import get from 'lodash.get';
 import { connect } from 'react-redux';
-import globalStyles from '../utils/styles';
+import componentStyles from '../styles/components';
 
 class DeckDetail extends Component {
     componentDidMount(){
@@ -22,7 +22,7 @@ class DeckDetail extends Component {
             return ( 
                 <ActivityIndicator 
                     animating={true}
-                    style={globalStyles.loader}
+                    style={componentStyles.loader}
                     size="large"
                 />
             )

@@ -42,3 +42,7 @@ This project was styled with React Native Elements. Please find more information
 This project was bootstrapped with [Create React Native App](https://github.com/react-community/create-react-native-app).
 
 Below you'll find information about performing common tasks. The most recent version of this guide is available [here](https://github.com/react-community/create-react-native-app/blob/master/react-native-scripts/template/README.md).
+
+# License
+
+Mobile Flashcards is Copyright © 2017 Keith Williams Jr. It is free software, and may be redistributed under the terms specified in the [LICENSE](https://github.com/Kphillycat/mobile-flashcards/blob/master/LICENSE) file.

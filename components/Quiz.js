@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { CORRECT, INCORRECT } from '../utils/constants'; 
 import { resetLocalNotification } from '../utils/helpers';
+import * as colors from '../style/colors';
 
 class Quiz extends Component {
     state = {
@@ -60,8 +61,11 @@ class Quiz extends Component {
                         source={percentage > 50 ? require('../images/yay.gif') : require('../images/keep-swimming.gif')}
                     />
                     <Text style={styles.resultsText}>{`You got ${percentage}% correct!`}</Text>
-                    <TouchableOpacity style={styles.homeButton} onPress={() => navigate('DeckList')}>
-                        <Text style={styles.buttonText}>Go Back to Deck List</Text>
+                    <TouchableOpacity style={[styles.goBackButtons, {backgroundColor: colors.GO_BACK_BTN}]} onPress={() => navigate('Quiz', { deck })}>
+                        <Text style={styles.goBackText}>Restart Quiz</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={[styles.goBackButtons, {backgroundColor: colors.GO_BACK_BTN}]} onPress={() => navigate('DeckDetail', {deckId: deck.title})}>
+                        <Text style={styles.goBackText}>Return to deck</Text>
                     </TouchableOpacity>
                 </View>
             )
@@ -150,10 +154,15 @@ const styles = StyleSheet.create({
         fontSize: 45,
         textAlign: 'center'
     },
-    homeButton: {
-        backgroundColor: '#1f8346',
+    goBackButtons: {
         borderRadius: 10,
         margin: 10
+    },
+    goBackText: {
+        color: 'white',
+        fontSize: 20,
+        textAlign: 'center',
+        padding: 20
     }
 });
 
