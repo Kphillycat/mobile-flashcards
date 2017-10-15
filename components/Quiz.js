@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import React, { PureComponent } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, Image, Dimensions } from 'react-native';
 import { CORRECT, INCORRECT } from '../utils/constants'; 
 import { resetLocalNotification } from '../utils/helpers';
 import * as colors from '../style/colors';
 
-class Quiz extends Component {
+class Quiz extends PureComponent {
     state = {
         showAnswer: false,
         currentCardIdx: 0,
@@ -13,7 +13,7 @@ class Quiz extends Component {
     };
 
     onShowPress = () => {
-        this.setState((state) => ({ showAnswer: !state.showAnswer}));
+        this.setState(state => ({ showAnswer: !state.showAnswer}));
     }
 
     onNextPress = (answer) => {
@@ -42,6 +42,7 @@ class Quiz extends Component {
         const { navigate } = this.props.navigation;
         const currentCard = deck.questions[currentCardIdx];
         const numberOfQuestions = deck.questions.length;
+        const { width } = Dimensions.get('window');
 
         if(numberOfQuestions === 0) {
             return (
@@ -54,10 +55,11 @@ class Quiz extends Component {
         if(currentCardIdx === numberOfQuestions) {
             resetLocalNotification();
                 
-            const percentage = (corrects/numberOfQuestions) * 100;
+            const percentage = Math.round((corrects/numberOfQuestions) * 100);
             return (
                 <View>
                     <Image
+                        style={{ width }}
                         source={percentage > 50 ? require('../images/yay.gif') : require('../images/keep-swimming.gif')}
                     />
                     <Text style={styles.resultsText}>{`You got ${percentage}% correct!`}</Text>

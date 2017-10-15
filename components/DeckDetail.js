@@ -13,8 +13,8 @@ class DeckDetail extends Component {
     }
 
     render() {
+        const { deckDetails: deck } = this.props
         const { state, navigate } = this.props.navigation;
-        const deck = this.props.deckDetails;
         const numOfQuestions = deck.questions ? deck.questions.length : 0;
         const { isFetching } = this.props.loadingStatus;
         

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Entypo } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native';
 
