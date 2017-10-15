@@ -46,6 +46,7 @@ class DeckList extends Component {
                     <Text style={styles.eraseText} >Erase ALL DECKS!</Text>
                 </TouchableOpacity>}
                 <FlatList
+                    style={{'marginBottom': 20}}
                     data={Object.keys(decks)}
                     keyExtractor={(data,index) => index}
                     renderItem={(data) => 

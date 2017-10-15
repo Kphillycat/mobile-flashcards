@@ -14,6 +14,7 @@ import { Provider } from 'react-redux';
 import rootReducer from './reducers';
 import thunk from 'redux-thunk';
 import { createLogger } from 'redux-logger';
+import GoBack from './components/GoBack';
 
 
 const middlewares = [thunk];
@@ -66,7 +67,10 @@ const MainNav = StackNavigator({
       screen: AddCard
     }
 },{
-  initialRouteName: 'Home'
+  initialRouteName: 'Home',
+  navigationOptions: ({navigation}) => ({
+    headerLeft: <GoBack navigate={navigation.navigate} state={navigation.state} />,
+})
 });
 
 export default class App extends React.Component {
